@@ -8,29 +8,40 @@ var folderName = document.getElementById("folderName");
 
 // Load all data from backend on start
 function loadData() {
+  // Fetch all data from the backend API and update the frontend "http://localhost:3000/api/all" endpoint. 
+  // The response is expected to be in JSON format, which is then stored in the "data" variable and rendered on the frontend.
   fetch(API + "/all")
-    .then(function (res) { return res.json(); })
-    .then(function (result) {
+    .then((res) => { return res.json(); })
+    .then((result) =>{
+      //console.log(result);
+      // //outputs:{ folders: [...], subfolders: [...], tasks: [...] }
       data = result;
       render();
     })
-    .catch(function (err) {
+    .catch((err)=>{
       console.error("Failed to load data:", err);
     });
 }
 
-document.querySelectorAll("#colors button").forEach(function (btn) {
+// Handle color selection for folders
+//This code is a color-picker button system. 
+// It finds all buttons inside #colors, gives each button its color,
+//  and makes the clicked button become the selected color.
+document.querySelectorAll("#colors button").forEach((btn) =>{
+  // Set the button's background color based on its data-color attribute
+  // btn.dataset.color = btn.getAttribute("data-color"); that means "#2196f3" or other color values
   btn.style.background = btn.dataset.color;
 
-  btn.onclick = function () {
+  btn.onclick = ()=>{
     color = btn.dataset.color;
+    //Take every button that was found and run this code once for each button
     document.querySelectorAll("#colors button")
-      .forEach(function (b) { b.classList.remove("selected"); });
+      .forEach((b) => { b.classList.remove("selected"); });
     btn.classList.add("selected");
   };
 });
 
-document.getElementById("addFolder").onclick = function () {
+document.getElementById("addFolder").onclick = ()=>{
   var name = folderName.value.trim();
   if (!name) return;
 
@@ -39,24 +50,101 @@ document.getElementById("addFolder").onclick = function () {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ name: name, color: color })
   })
-    .then(function (res) { return res.json(); })
-    .then(function () {
+    .then((res)=> { return res.json(); })
+    .then(()=>{
       folderName.value = "";
       loadData();
     })
-    .catch(function (err) { console.error(err); });
+    .catch((err) => { console.error(err); });
 };
 
-document.getElementById("clear").onclick = function () {
+document.getElementById("clear").onclick = ()=>{
   folderName.value = "";
 };
 
-folderName.onkeydown = function (e) {
+folderName.onkeydown =  (e) =>{
   if (e.key === "Enter") document.getElementById("addFolder").click();
 };
 
+
+
+
+
+// result={
+//   "folders": [
+//     {
+//       "id": 1,
+//       "name": "Personal Projects",
+//       "created_at": "2026-10-01T10:00:00Z"
+//     },
+
+//     {
+//       "id": 2,
+//       "name": "University",
+//       "created_at": "2026-10-02T11:30:00Z"
+//     }
+//   ],
+
+//   "subfolders": [
+//     {
+//       "id": 101,
+//       "folder_id": 1,
+//       "name": "Task Manager Web App",
+//       "created_at": "2026-10-01T10:05:00Z"
+//     },
+
+//     {
+//       "id": 102,
+//       "folder_id": 1,
+//       "name": "Portfolio Website",
+//       "created_at": "2026-10-01T10:10:00Z"
+//     },
+
+//     {
+//       "id": 103,
+//       "folder_id": 2,
+//       "name": "Database Systems Course",
+//       "created_at": "2026-10-02T11:35:00Z"
+//     }
+//   ],
+
+//   "tasks": [
+//     {
+//       "id": 501,
+//       "subfolder_id": 101,
+//       "name": "Set up Express server & MySQL connection",
+//       "done": 1,
+//       "due": "2026-10-10",
+//       "created_at": "2026-10-01T10:15:00Z"
+//     },
+
+//     {
+//       "id": 502,
+//       "subfolder_id": 101,
+//       "name": "Create POST /tasks API endpoint",
+//       "done": 0,
+//       "due": "2026-10-12",
+//       "created_at": "2026-10-01T10:20:00Z"
+//     },
+
+//     {
+//       "id": 503,
+//       "subfolder_id": 103,
+//       "name": "Prepare for Concurrency Control quiz",
+//       "done": 0,
+//       "due": null,
+//       "created_at": "2026-10-02T11:40:00Z"
+//     }
+
+//   ]
+// }
+
+
+
+
+
 function render() {
-  app.innerHTML = data.map(function (f) {
+  app.innerHTML = data.map((f)=>{
     return '<div class="folder" style="border-color:' + f.color + '">' +
       '<div class="row">' +
         '<span class="folder-name">' + f.name + '</span>' +
@@ -66,7 +154,10 @@ function render() {
           '<button onclick="delFolder(' + f.id + ')">🗑</button>' +
         '</span>' +
       '</div>' +
-      f.subfolders.map(function (s) {
+
+     
+      f.subfolders.map((s) => {
+        //  console.log(s.subfolders); 
         return '<div class="subfolder">' +
           '<div class="row">' +
             '<span class="subfolder-name">' + s.name + '</span>' +
@@ -76,7 +167,7 @@ function render() {
               '<button onclick="delSub(' + f.id + ',' + s.id + ')">🗑</button>' +
             '</span>' +
           '</div>' +
-          s.tasks.map(function (t, i) {
+          s.tasks.map((t, i)=> {
             return '<div class="task ' + (t.done ? "done" : "") + '">' +
               '<div class="row">' +
                 '<span class="title">' + (i + 1) + '. ' + t.name + '</span>' +
@@ -127,7 +218,7 @@ function createSub(fid) {
     body: JSON.stringify({ name: name })
   })
     .then(function (res) { return res.json(); })
-    .then(function () { loadData(); })
+    .then(()=>{ loadData(); })
     .catch(function (err) { console.error(err); });
 }
 
@@ -151,7 +242,7 @@ function createTask(fid, sid) {
     body: JSON.stringify({ name: name, due: new Date().toLocaleString() })
   })
     .then(function (res) { return res.json(); })
-    .then(function () { loadData(); })
+    .then(()=>{ loadData(); })
     .catch(function (err) { console.error(err); });
 }
 
@@ -160,7 +251,7 @@ function toggle(fid, sid, tid) {
     method: "PATCH"
   })
     .then(function (res) { return res.json(); })
-    .then(function () { loadData(); })
+    .then(()=>{ loadData(); })
     .catch(function (err) { console.error(err); });
 }
 
@@ -173,21 +264,21 @@ function getTask(fid, sid, tid) {
 function delTask(fid, sid, tid) {
   fetch(API + "/tasks/" + tid, { method: "DELETE" })
     .then(function (res) { return res.json(); })
-    .then(function () { loadData(); })
+    .then(()=>{ loadData(); })
     .catch(function (err) { console.error(err); });
 }
 
 function delSub(fid, sid) {
   fetch(API + "/subfolders/" + sid, { method: "DELETE" })
     .then(function (res) { return res.json(); })
-    .then(function () { loadData(); })
+    .then(()=>{ loadData(); })
     .catch(function (err) { console.error(err); });
 }
 
 function delFolder(fid) {
   fetch(API + "/folders/" + fid, { method: "DELETE" })
     .then(function (res) { return res.json(); })
-    .then(function () { loadData(); })
+    .then(()=>{ loadData(); })
     .catch(function (err) { console.error(err); });
 }
 
@@ -202,7 +293,7 @@ function editFolder(fid) {
       body: JSON.stringify({ name: name.trim() })
     })
       .then(function (res) { return res.json(); })
-      .then(function () { loadData(); })
+      .then(()=>{ loadData(); })
       .catch(function (err) { console.error(err); });
   }
 }
@@ -219,7 +310,7 @@ function editSub(fid, sid) {
       body: JSON.stringify({ name: name.trim() })
     })
       .then(function (res) { return res.json(); })
-      .then(function () { loadData(); })
+      .then(()=>{ loadData(); })
       .catch(function (err) { console.error(err); });
   }
 }
@@ -235,12 +326,12 @@ function editTask(fid, sid, tid) {
       body: JSON.stringify({ name: name.trim() })
     })
       .then(function (res) { return res.json(); })
-      .then(function () { loadData(); })
+      .then(()=>{ loadData(); })
       .catch(function (err) { console.error(err); });
   }
 }
 
-document.getElementById("analytics").onclick = function () {
+document.getElementById("analytics").onclick = ()=>{
   fetch(API + "/analytics")
     .then(function (res) { return res.json(); })
     .then(function (stats) {

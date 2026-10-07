@@ -1,0 +1,349 @@
+Why use this instead of that code 
+
+[subfolderId]   this match with this " ? "
+
+Example Where subfolderID =? and 
+        Where subfolderID =[subfolderId]  
+
+
+        The database driver substitutes the parameter safely.
+        This is called a parameterized query.
+        It is preferable to building SQL manually with string concatenation.
+
+INSERT INTO folders (name, color)
+VALUES (?, ?)
+
+allows the database library to safely parameterize the values.
+This helps protect against SQL injection and handles escaping correctly.
+
+"INSERT INTO folders (name, color)
+ VALUES ('" + name + "', '" + color + "')"
+
+
+const express = require("express");
+express.Router() creates a router object.
+
+This allows you to keep task-related endpoints in this separate file
+instead of putting every route into server.js.
+
+200 → successful request
+201 → resource successfully created
+400 → client sent bad data
+404 → resource doesn't exist
+500 → server/database problem
+
+
+GET    → read tasks
+POST   → create task
+PUT    → edit task name
+PATCH  → change done state
+DELETE → remove task
+
+
+SQL is not the same as MySQL
+
+This is the key distinction:
+
+
+SQL just like this :  A language	
+
+             Used to write database commands
+             standard query language	
+             SELECT, INSERT, UPDATE, DELETE             
+
+            1, SELECT * FROM folders ORDER BY id ASC
+
+            2, INSERT INTO folders (name, color)
+            3, VALUES ("Work", "red");
+
+            4, UPDATE folders
+               SET name = ?
+               WHERE id = ?
+
+            5, DELETE FROM folders
+               WHERE id = 5;
+
+MYSQL are:  
+
+    Database connection is connected to MySQL server/database.
+    A database management system(this table created space)
+	Executes and manages those commands
+	One specific DBMS
+	Stores data and processes those queries
+	Is database server/software
+       
+
+    function (err, results)
+    After MySQL finishes executing the query, this function runs.
+    
+    err
+       Database error.
+    results
+       The rows returned from MySQL.
+
+       [
+  {
+    id: 1,
+    subfolder_id: 2,
+    name: "Learn React",
+    done: 0,
+    due: "2026-10-10"
+  },
+  {
+    id: 2,
+    subfolder_id: 2,
+    name: "Practice JSX",
+    done: 1,
+    due: null
+  }
+]
+       
+
+
+ INSERT INTO tasks
+(subfolder_id, name, done, due)
+VALUES
+(?, ?, 0, ?)  
+
+
+?  → subfolderId
+?  → name
+0  → fixed value
+?  → due
+
+for example : subfolderId = 2
+              name = "Learn Express"
+              due = "2026-10-10"
+
+INSERT INTO tasks
+(subfolder_id, name, done, due)
+VALUES
+(2, 'Learn Express', 0, '2026-10-10');
+
+
+
+if (result.affectedRows === 0) 
+If zero rows were deleted, the task wasn't found.
+
+tasks route :
+         
+         GET    /tasks/:subfolderId
+         POST   /tasks/:subfolderId
+         PUT    /tasks/:id
+         PATCH  /tasks/:id/toggle
+         DELETE /tasks/:id
+
+
+
+script.js:  loadData(){
+  fetch(API + "/all")
+    .then((res) => { return res.json(); })
+    .then((result) =>{
+
+
+      console.log(result);
+      outputs:{
+  "folders": [
+    {
+      "id": 1,
+      "name": "Personal Projects",
+      "created_at": "2026-10-01T10:00:00Z"
+    },
+    {
+      "id": 2,
+      "name": "University",
+      "created_at": "2026-10-02T11:30:00Z"
+    }
+  ],
+
+  "subFolders": [
+    {
+      "id": 101,
+      "folder_id": 1,
+      "name": "Task Manager Web App",
+      "created_at": "2026-10-01T10:05:00Z"
+    },
+    {
+      "id": 102,
+      "folder_id": 1,
+      "name": "Portfolio Website",
+      "created_at": "2026-10-01T10:10:00Z"
+    },
+    {
+      "id": 103,
+      "folder_id": 2,
+      "name": "Database Systems Course",
+      "created_at": "2026-10-02T11:35:00Z"
+    }
+  ],
+
+  "tasks": [
+    {
+      "id": 501,
+      "subfolder_id": 101,
+      "name": "Set up Express server & MySQL connection",
+      "done": 1,
+      "due": "2026-10-10",
+      "created_at": "2026-10-01T10:15:00Z"
+    },
+    {
+      "id": 502,
+      "subfolder_id": 101,
+      "name": "Create POST /tasks API endpoint",
+      "done": 0,
+      "due": "2026-10-12",
+      "created_at": "2026-10-01T10:20:00Z"
+    },
+    {
+      "id": 503,
+      "subfolder_id": 103,
+      "name": "Prepare for Concurrency Control quiz",
+      "done": 0,
+      "due": null,
+      "created_at": "2026-10-02T11:40:00Z"
+    }
+  ]
+}
+      data = result;
+
+      render();
+    })
+    .catch((err)=>{
+      console.error("Failed to load data:", err);
+    });
+  
+}
+
+.forEach((btn) => {  work space....})
+For every button, put that button into the variable btn.
+
+
+  
+
+                 FOLDER API
+                      │
+       ┌──────────────┼──────────────┐
+       │              │              │
+       ▼              ▼              ▼
+     GET            POST            PUT
+  /folders        /folders       /folders/:id
+       │              │              │
+       ▼              ▼              ▼
+   Get all         Create          Update
+   folders         folder          folder
+       │              │              │
+       └──────────────┼──────────────┘
+                      │
+                      ▼
+                    DELETE
+                 /folders/:id
+                      │
+                      ▼
+                    Delete
+                    folder
+
+
+
+
+                 This is Tasks table and backend
+
+                         FRONTEND
+                            │
+                            │
+                ┌───────────┴───────────┐
+                │                       │
+                ▼                       ▼
+         Get tasks                  Create task
+         GET /tasks/3              POST /tasks/3
+                │                       │
+                └───────────┬───────────┘
+                            ▼
+                     EXPRESS ROUTER
+                            │
+                            ▼
+                         MySQL
+                            │
+             ┌──────────────┼──────────────┐
+             │              │              │
+             ▼              ▼              ▼
+           SELECT          INSERT         UPDATE
+                            │
+                            ▼
+                           tasks
+                            │
+             ┌──────────────┼──────────────┐
+             ▼              ▼              ▼
+           Update         Toggle          Delete
+          PUT /id       PATCH /id/toggle   DELETE /id
+
+
+
+
+
+router
+  ↓
+Defines API endpoint
+
+req.params
+  ↓
+Gets values from URL
+
+req.body
+  ↓
+Gets data sent by client
+
+db.query()
+  ↓
+Talks to MySQL
+
+?
+  ↓
+Parameterized SQL value
+
+SELECT
+  ↓
+Read data
+
+INSERT
+  ↓
+Create data
+
+UPDATE
+  ↓
+Change data
+
+DELETE
+  ↓
+Remove data
+
+affectedRows
+  ↓
+How many database rows were modified
+
+rows
+  ↓
+Data returned by SELECT
+
+insertId
+  ↓
+ID generated for new record
+
+201
+  ↓
+Created
+
+400
+  ↓
+Bad request
+
+404
+  ↓
+Not found
+
+500
+  ↓
+Server/database error
+
+module.exports
+  ↓
+Export router
