@@ -1,0 +1,237 @@
+:root {
+    --bg: #07142d;
+    --card: #10244d;
+    --card2: #172f60;
+    --text: #fff;
+    --muted: #aab8d4;
+    --blue: #38bdf8;
+    --red: #ff604f;
+    --green: #35d07f;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    padding: 25px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+header h1 {
+    font-size: 32px;
+}
+
+header p {
+    color: var(--muted);
+    margin-top: 8px;
+}
+
+button,
+input {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+#analytics {
+    width: 100%;
+    padding: 15px;
+    border: 0;
+    border-radius: 12px;
+    background: linear-gradient(90deg, #b9c8ff, #54d5ec);
+    color: white;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.create {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px;
+    background: #233761;
+    border-radius: 14px;
+    margin-bottom: 20px;
+}
+
+.create input {
+    flex: 1;
+    padding: 14px;
+    border: 1px solid #52678f;
+    border-radius: 10px;
+    background: #334a76;
+    color: white;
+}
+
+.create input::placeholder {
+    color: #c6d0e3;
+}
+
+#create,
+#addFolder {
+    background: var(--blue);
+    border: 0;
+    padding: 13px 20px;
+    border-radius: 10px;
+    color: white;
+    font-weight: bold;
+}
+
+#clear {
+    background: transparent;
+    border: 1px solid #62759b;
+    color: white;
+    padding: 10px 14px;
+    border-radius: 10px;
+}
+
+#colors {
+    display: flex;
+    gap: 7px;
+}
+
+#colors button {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+}
+
+#colors button.selected {
+    border-color: white;
+}
+
+.folder {
+    background: var(--card);
+    border: 2px solid #2570ff;
+    border-radius: 14px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+}
+
+.folder-name {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.folder-name::before {
+    content: "📁 ";
+}
+
+.subfolder {
+    background: var(--card2);
+    border-radius: 10px;
+    padding: 12px;
+    margin: 8px 0 8px 25px;
+}
+
+.subfolder-name::before {
+    content: "📂 ";
+}
+
+.task {
+    margin: 8px 0 0 25px;
+    padding: 12px;
+    border-left: 4px solid var(--red);
+    background: #0a1b39;
+    border-radius: 8px;
+}
+
+.task.done {
+    border-color: var(--green);
+}
+
+.task.done .title {
+    color: var(--green);
+    text-decoration: line-through;
+}
+
+.badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.expired {
+    background: #73352f;
+    color: #ff9a8e;
+}
+
+.completed {
+    background: #194f35;
+    color: #6ff0a4;
+}
+
+.actions {
+    display: flex;
+    gap: 6px;
+    margin-left: auto;
+}
+
+.actions button {
+    background: #193568;
+    color: white;
+    border: 0;
+    border-radius: 7px;
+    padding: 6px 9px;
+}
+
+.add-box {
+    display: flex;
+    gap: 6px;
+    margin-top: 8px;
+}
+
+.add-box input {
+    flex: 1;
+    padding: 8px;
+    border-radius: 7px;
+    border: 1px solid #50678f;
+    background: #203d6e;
+    color: white;
+}
+
+.small {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 6px;
+}
+
+@media(max-width:700px) {
+    body {
+        padding: 12px;
+    }
+
+    .create {
+        flex-wrap: wrap;
+    }
+
+    .create input {
+        flex-basis: 100%;
+    }
+
+    .actions {
+        flex-wrap: wrap;
+    }
+}

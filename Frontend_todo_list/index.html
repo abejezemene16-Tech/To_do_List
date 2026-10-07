@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>To-Do Organiser</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>📄 To-Do Organiser</h1>
+        <p>Folders → SubFolders → Tasks</p>
+    </header>
+
+    <button id="analytics">📊 View Analytics & Reports</button>
+
+    <!-- Create Folder -->
+    <section class="create">
+        <input id="folderName" placeholder="📁 Folder name (e.g. Work, Personal)...">
+
+        <div id="colors">
+            <button data-color="#2196f3"></button>
+            <button data-color="#22c55e"></button>
+            <button data-color="#f97316"></button>
+            <button data-color="#eab308"></button>
+            <button data-color="#8b5cf6"></button>
+            <button data-color="#06b6d4"></button>
+        </div>
+
+        <button id="addFolder">Create</button>
+        <button id="clear">×</button>
+    </section>
+
+    <!-- Main Content -->
+    <main id="app"></main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
