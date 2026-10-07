@@ -13,14 +13,25 @@ const app = express();
 const PORT = 3000;
 
 // ========== Middleware ==========
+// Enable CORS for all routes
 app.use(cors());
+// Parse incoming JSON requests used by the frontend
 app.use(express.json());
+// Parse incoming URL-encoded requests (for form submissions)
 app.use(express.urlencoded({ extended: true }));
+//those middlewares are used to handle incoming requests and responses in the Express application.
+//uses for req.body to parse JSON and URL-encoded data, and
+//  cors to allow cross-origin requests from the frontend.
+
+
+
 
 // Serve the frontend static files
+// console.log(path.join(__dirname, "..", "Frontend_todo_list"));
 app.use(express.static(path.join(__dirname, "..", "Frontend_todo_list")));
 
 // ========== API Routes ==========
+// Use the imported route files for specific API endpoints
 app.use("/api/folders", folderRoutes);
 app.use("/api/subfolders", subfolderRoutes);
 app.use("/api/tasks", taskRoutes);
@@ -124,7 +135,7 @@ app.get("/", function (req, res) {
 // ========== Start the server ==========
 app.listen(PORT, function () {
   console.log("========================================");
-  console.log("  To-Do Organiser Backend is running!");
+  console.log("  To-Do Organizer Backend is running!");
   console.log("  http://localhost:" + PORT);
   console.log("========================================");
 });
